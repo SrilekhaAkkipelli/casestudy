@@ -3,10 +3,12 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'srilekha0208/campuscare'
-        DOCKER_CREDENTIALS = 'dockerhub-credentials'
-        K8S_NAMESPACE = 'default'
-    }
+    DOCKER_IMAGE = 'srilekha0208/campuscare'
+    DOCKER_CREDENTIALS = 'dockerhub-credentials'
+    K8S_NAMESPACE = 'default'
+
+    PATH+DOCKER = 'C:\\Users\\akkip\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin'
+}
 
     stages {
 
