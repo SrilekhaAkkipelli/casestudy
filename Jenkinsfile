@@ -6,8 +6,6 @@ pipeline {
     DOCKER_IMAGE = 'srilekha0208/campuscare'
     DOCKER_CREDENTIALS = 'dockerhub-credentials'
     K8S_NAMESPACE = 'default'
-
-    PATH+DOCKER = 'C:\\Users\\akkip\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin'
 }
 
     stages {
@@ -20,29 +18,34 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                echo 'Building CampusCare Docker image...'
-                script {
-                    docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
-                }
+    steps {
+        echo 'Building CampusCare Docker image...'
+
+        withEnv(["PATH+DOCKER=C:\\Users\\akkip\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin"]) {
+            script {
+                docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
             }
         }
+    }
+}
 
         stage('Push Docker Image') {
-            steps {
-                echo 'Pushing image to Docker Hub...'
+    steps {
+        echo 'Pushing image to Docker Hub...'
 
-                script {
-                    docker.withRegistry(
-                        'https://index.docker.io/v1/',
-                        DOCKER_CREDENTIALS
-                    ) {
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push('latest')
-                    }
+        withEnv(["PATH+DOCKER=C:\\Users\\akkip\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin"]) {
+            script {
+                docker.withRegistry(
+                    'https://index.docker.io/v1/',
+                    DOCKER_CREDENTIALS
+                ) {
+                    docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
+                    docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push('latest')
                 }
             }
         }
+    }
+}
 
         stage('Deploy to Kubernetes') {
             steps {
