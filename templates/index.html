@@ -1,0 +1,112 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | CampusCare{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+
+    <p class="eyebrow">COLLEGE COMPLAINT MANAGEMENT SYSTEM</p>
+
+    <h1>A Better Campus Starts With Your Voice.</h1>
+
+    <p>
+        Report campus issues, share your concerns and
+        track your complaints easily through CampusCare.
+    </p>
+
+    <a href="{{ url_for('submit_complaint') }}" class="btn">
+        Submit a Complaint
+    </a>
+
+</section>
+
+
+<!-- Dashboard Statistics -->
+<h2>Complaint Overview</h2>
+
+<section class="stats">
+
+    <div class="stat-card">
+        <h3>Total Complaints</h3>
+        <p>{{ total }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Pending</h3>
+        <p>{{ pending }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>In Progress</h3>
+        <p>{{ in_progress }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Resolved</h3>
+        <p>{{ resolved }}</p>
+    </div>
+
+</section>
+
+
+<!-- Recent Complaints -->
+<section class="recent-section">
+
+    <h2>Recently Submitted Complaints</h2>
+
+    {% if recent %}
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Complaint ID</th>
+                    <th>Student Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for complaint in recent %}
+
+                <tr>
+                    <td>#{{ complaint.id }}</td>
+
+                    <td>{{ complaint.student_name }}</td>
+
+                    <td>{{ complaint.category }}</td>
+
+                    <td>
+                        <span class="status">
+                            {{ complaint.status }}
+                        </span>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <p class="empty">
+        No complaints have been submitted yet.
+    </p>
+
+    {% endif %}
+
+</section>
+
+
+{% endblock %}

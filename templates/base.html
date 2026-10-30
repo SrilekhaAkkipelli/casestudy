@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}CampusCare{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+
+        <div class="logo">
+            CampusCare
+        </div>
+
+        <nav>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('submit_complaint') }}">Submit Complaint</a>
+    <a href="{{ url_for('track_complaints') }}">Track Complaints</a>
+    <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+</nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <h3>CampusCare</h3>
+        <p>College Complaint Tracking System</p>
+        <p>Academic Year 2026-2027</p>
+        <p>Making Campus Better Together.</p>
+    </footer>
+
+</body>
+</html>

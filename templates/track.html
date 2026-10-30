@@ -1,0 +1,132 @@
+
+{% extends "base.html" %}
+
+{% block title %}Track Complaints | CampusCare{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+
+    <p class="eyebrow">CAMPUSCARE / TRACKING</p>
+
+    <h1>Track Your Complaints</h1>
+
+    <p>
+        Stay updated on your submitted complaints
+        and check their current status.
+    </p>
+
+</section>
+
+
+<!-- Search Form -->
+
+<form method="GET"
+      action="{{ url_for('track_complaints') }}"
+      class="search-form">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Enter your roll number"
+        value="{{ search }}"
+    >
+
+    <button type="submit" class="btn">
+        Search
+    </button>
+
+    <a href="{{ url_for('track_complaints') }}" class="reset-btn">
+        Reset
+    </a>
+
+</form>
+
+
+<!-- Complaints Table -->
+
+<section class="complaints-section">
+
+    <h2>Complaint Records</h2>
+
+    {% if complaints %}
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Complaint ID</th>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Department</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for complaint in complaints %}
+
+                <tr>
+
+                    <td>#{{ complaint.id }}</td>
+
+                    <td>{{ complaint.student_name }}</td>
+
+                    <td>{{ complaint.roll_number }}</td>
+
+                    <td>{{ complaint.department }}</td>
+
+                    <td>{{ complaint.category }}</td>
+
+                    <td>{{ complaint.description }}</td>
+
+                    <td>
+                        <span class="status">
+                            {{ complaint.status }}
+                        </span>
+                    </td>
+
+                    <td>{{ complaint.created_at }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+
+        <h3>No Complaints Found</h3>
+
+        <p>
+            No complaint records are available.
+            Please check your roll number or submit a new complaint.
+        </p>
+
+        <br>
+
+        <a href="{{ url_for('submit_complaint') }}" class="btn">
+            Submit Complaint
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

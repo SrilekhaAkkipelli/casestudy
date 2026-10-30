@@ -1,0 +1,99 @@
+
+{% extends "base.html" %}
+
+{% block title %}Submit Complaint | CampusCare{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+
+    <p class="eyebrow">CAMPUSCARE / COMPLAINTS</p>
+
+    <h1>Submit a Complaint</h1>
+
+    <p>
+        Help us improve your campus experience.
+        Please provide the details of your complaint below.
+    </p>
+
+</section>
+
+
+<div class="form-wrapper">
+
+    <form method="POST" class="complaint-form">
+
+        <h2>Student Information</h2>
+
+        <label for="student_name">Student Name</label>
+
+        <input
+            type="text"
+            id="student_name"
+            name="student_name"
+            placeholder="Enter your full name"
+            required
+        >
+
+        <label for="roll_number">Roll Number</label>
+
+        <input
+            type="text"
+            id="roll_number"
+            name="roll_number"
+            placeholder="Enter your roll number"
+            required
+        >
+
+        <label for="department">Department</label>
+
+        <select id="department" name="department" required>
+
+            <option value="">Select Department</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Electronics and Communication">Electronics and Communication</option>
+            <option value="Electrical and Electronics">Electrical and Electronics</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+
+        </select>
+
+
+        <h2 class="form-subheading">Complaint Information</h2>
+
+        <label for="category">Complaint Category</label>
+
+        <select id="category" name="category" required>
+
+            <option value="">Select Complaint Category</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Hostel">Hostel</option>
+            <option value="Library">Library</option>
+            <option value="Internet and Wi-Fi">Internet and Wi-Fi</option>
+            <option value="Cleanliness">Cleanliness</option>
+            <option value="Transport">Transport</option>
+            <option value="Other">Other</option>
+
+        </select>
+
+
+        <label for="description">Complaint Description</label>
+
+        <textarea
+            id="description"
+            name="description"
+            rows="5"
+            placeholder="Explain your complaint in detail..."
+            required
+        ></textarea>
+
+
+        <button type="submit" class="btn submit-btn">
+            Submit Complaint
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

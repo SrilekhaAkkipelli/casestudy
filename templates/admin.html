@@ -1,0 +1,170 @@
+
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | CampusCare{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+
+    <p class="eyebrow">CAMPUSCARE / ADMINISTRATION</p>
+
+    <h1>Admin Dashboard</h1>
+
+    <p>
+        Manage student complaints, verify issues
+        and monitor their resolution.
+    </p>
+
+</section>
+
+
+<!-- Statistics -->
+
+<h2>Complaint Statistics</h2>
+
+<section class="stats">
+
+    <div class="stat-card">
+        <h3>Total Complaints</h3>
+        <p>{{ total }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Pending</h3>
+        <p>{{ pending }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Verified</h3>
+        <p>{{ verified }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>In Progress</h3>
+        <p>{{ in_progress }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Resolved</h3>
+        <p>{{ resolved }}</p>
+    </div>
+
+</section>
+
+
+<!-- Complaint Management -->
+
+<section class="complaints-section">
+
+    <h2>Manage Student Complaints</h2>
+
+    {% if complaints %}
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Roll Number</th>
+                    <th>Department</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Current Status</th>
+                    <th>Update Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for complaint in complaints %}
+
+                <tr>
+
+                    <td>#{{ complaint.id }}</td>
+
+                    <td>{{ complaint.student_name }}</td>
+
+                    <td>{{ complaint.roll_number }}</td>
+
+                    <td>{{ complaint.department }}</td>
+
+                    <td>{{ complaint.category }}</td>
+
+                    <td>{{ complaint.description }}</td>
+
+                    <td>
+                        <span class="status">
+                            {{ complaint.status }}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('update_complaint_status', complaint_id=complaint.id) }}"
+                        >
+
+                            <select name="status" required>
+
+                                <option value="Pending"
+                                    {% if complaint.status == 'Pending' %}selected{% endif %}>
+                                    Pending
+                                </option>
+
+                                <option value="Verified"
+                                    {% if complaint.status == 'Verified' %}selected{% endif %}>
+                                    Verified
+                                </option>
+
+                                <option value="In Progress"
+                                    {% if complaint.status == 'In Progress' %}selected{% endif %}>
+                                    In Progress
+                                </option>
+
+                                <option value="Resolved"
+                                    {% if complaint.status == 'Resolved' %}selected{% endif %}>
+                                    Resolved
+                                </option>
+
+                            </select>
+
+                            <button type="submit" class="btn">
+                                Update
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+
+        <h3>No Complaints Available</h3>
+
+        <p>Student complaints will appear here after submission.</p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
