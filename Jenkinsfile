@@ -5,6 +5,7 @@ pipeline {
         DOCKER_IMAGE = 'srilekha0208/campuscare'
         K8S_NAMESPACE = 'default'
         DOCKER_EXE = 'C:\\Users\\akkip\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe'
+        KUBECTL_EXE = 'C:\\Users\\akkip\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\kubectl.exe'
     }
 
     stages {
@@ -49,6 +50,8 @@ pipeline {
                         if errorlevel 1 exit /b 1
 
                         "%DOCKER_EXE%" push "%DOCKER_IMAGE%:latest"
+
+                        if errorlevel 1 exit /b 1
                     '''
                 }
             }
@@ -59,19 +62,19 @@ pipeline {
                 echo 'Deploying CampusCare to Kubernetes...'
 
                 bat '''
-                    kubectl apply -f kubernetes\\deployment.yaml -n %K8S_NAMESPACE%
+                    "%KUBECTL_EXE%" apply -f kubernetes\\deployment.yaml -n %K8S_NAMESPACE%
 
                     if errorlevel 1 exit /b 1
 
-                    kubectl apply -f kubernetes\\service.yaml -n %K8S_NAMESPACE%
+                    "%KUBECTL_EXE%" apply -f kubernetes\\service.yaml -n %K8S_NAMESPACE%
 
                     if errorlevel 1 exit /b 1
 
-                    kubectl set image deployment/campuscare campuscare=%DOCKER_IMAGE%:%BUILD_NUMBER% -n %K8S_NAMESPACE%
+                    "%KUBECTL_EXE%" set image deployment/campuscare campuscare=%DOCKER_IMAGE%:%BUILD_NUMBER% -n %K8S_NAMESPACE%
 
                     if errorlevel 1 exit /b 1
 
-                    kubectl rollout status deployment/campuscare -n %K8S_NAMESPACE%
+                    "%KUBECTL_EXE%" rollout status deployment/campuscare -n %K8S_NAMESPACE%
                 '''
             }
         }
