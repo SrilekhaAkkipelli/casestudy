@@ -1,13 +1,12 @@
 
 apiVersion: apps/v1
-
 kind: Deployment
 
 metadata:
   name: campuscare
 
 spec:
-  replicas: 2
+  replicas: 1
 
   selector:
     matchLabels:
@@ -21,8 +20,8 @@ spec:
     spec:
       containers:
         - name: campuscare
-
-          image: YOUR_DOCKERHUB_USERNAME/campuscare:latest
+          image: srilekha0208/campuscare:latest
+          imagePullPolicy: Always
 
           ports:
             - containerPort: 5000
